@@ -3,6 +3,7 @@ using StackExchange.Redis;
 using System.Text.Json;
 using ThrottlingTroll;
 using ThrottlingTroll.CounterStores.Redis;
+using ThrottlingTrollSampleWeb.Controllers;
 
 namespace ThrottlingTrollSampleWeb
 {
@@ -37,10 +38,10 @@ namespace ThrottlingTrollSampleWeb
             // <ThrottlingTroll Egress Configuration>
 
             // Configuring a named HttpClient for egress throttling. Rules and limits taken from appsettings.json
-            builder.Services.AddHttpClient("my-throttled-httpclient").AddThrottlingTrollMessageHandler();
+            builder.Services.AddHttpClient(TestController.MyThrottledHttpClientName).AddThrottlingTrollMessageHandler();
 
             // Configuring a named HttpClient that does automatic retries with respect to Retry-After response header
-            builder.Services.AddHttpClient("my-retrying-httpclient").AddThrottlingTrollMessageHandler(options =>
+            builder.Services.AddHttpClient(TestController.MyRetryingHttpClientName).AddThrottlingTrollMessageHandler(options =>
             {
                 options.ResponseFabric = async (checkResults, requestProxy, responseProxy, cancelToken) =>
                 {
@@ -93,7 +94,7 @@ namespace ThrottlingTrollSampleWeb
                         // Static programmatic configuration
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/fixed-window-1-request-per-2-seconds-configured-programmatically",
+                            UriPattern = $"/{TestController.FixedWindow1RequestPer2SecondsConfiguredProgrammaticallyRoute}",
                             LimitMethod = new FixedWindowRateLimitMethod
                             {
                                 PermitLimit = 1,
@@ -105,7 +106,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to use custom response fabrics
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/fixed-window-1-request-per-2-seconds-response-fabric",
+                            UriPattern = $"/{TestController.FixedWindow1RequestPer2SecondsResponseFabricRoute}",
                             LimitMethod = new FixedWindowRateLimitMethod
                             {
                                 PermitLimit = 1,
@@ -134,7 +135,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to delay the response instead of returning 429
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/fixed-window-1-request-per-2-seconds-delayed-response",
+                            UriPattern = $"/{TestController.FixedWindow1RequestPer2SecondsDelayedResponseRoute}",
                             LimitMethod = new FixedWindowRateLimitMethod
                             {
                                 PermitLimit = 1,
@@ -155,7 +156,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to use identity extractors
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/fixed-window-3-requests-per-15-seconds-per-each-api-key",
+                            UriPattern = $"/{TestController.FixedWindow3RequestsPer15SecondsPerEachApiKeyRoute}",
                             LimitMethod = new FixedWindowRateLimitMethod
                             {
                                 PermitLimit = 3,
@@ -174,7 +175,7 @@ namespace ThrottlingTrollSampleWeb
                         // DON'T TEST IT IN BROWSER, because browsers themselves limit the number of concurrent requests to the same URL.
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/semaphore-2-concurrent-requests",
+                            UriPattern = $"/{TestController.Semaphore2ConcurrentRequestsRoute}",
                             LimitMethod = new SemaphoreRateLimitMethod
                             {
                                 PermitLimit = 2
@@ -182,12 +183,12 @@ namespace ThrottlingTrollSampleWeb
                         },
 
 
-                        /// Demonstrates how to make a named distributed critical section with Semaphore (Concurrency) rate limiter and Identity Extractor.
-                        /// Query string's 'id' parameter is used as identityId.
+                        // Demonstrates how to make a named distributed critical section with Semaphore (Concurrency) rate limiter and Identity Extractor.
+                        // Query string's 'id' parameter is used as identityId.
                         // DON'T TEST IT IN BROWSER, because browsers themselves limit the number of concurrent requests to the same URL.
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/named-critical-section",
+                            UriPattern = $"/{TestController.NamedCriticalSectionRoute}",
                             LimitMethod = new SemaphoreRateLimitMethod
                             {
                                 PermitLimit = 1
@@ -207,7 +208,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to make a distributed counter with SemaphoreRateLimitMethod
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/distributed-counter",
+                            UriPattern = $"/{TestController.DistributedCounterRoute}",
                             LimitMethod = new SemaphoreRateLimitMethod
                             {
                                 PermitLimit = 1
@@ -227,7 +228,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to use cost extractors
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/fixed-window-balance-of-10-per-20-seconds",
+                            UriPattern = $"/{TestController.FixedWindowBalanceOf10Per20Seconds}",
 
                             LimitMethod = new FixedWindowRateLimitMethod
                             {
@@ -249,7 +250,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to use request deduplication
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/request-deduplication",
+                            UriPattern = $"/{TestController.RequestDeduplicationRoute}",
 
                             LimitMethod = new SemaphoreRateLimitMethod
                             {
@@ -276,7 +277,7 @@ namespace ThrottlingTrollSampleWeb
                         // Demonstrates how to use circuit breaker
                         new ThrottlingTrollRule
                         {
-                            UriPattern = "/circuit-breaker-2-errors-per-10-seconds",
+                            UriPattern = $"/{TestController.CircuitBreaker2ErrorsPer10SecondsRoute}",
 
                             LimitMethod = new CircuitBreakerRateLimitMethod
                             {

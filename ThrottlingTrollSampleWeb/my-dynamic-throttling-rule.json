@@ -1,5 +1,5 @@
 {
-  "UriPattern": "/sliding-window-7-requests-per-20-seconds-with-4-buckets-configured-dynamically",
+  "UriPattern": "/sliding-window-7-requests-per-20-seconds-with-4-buckets-configured-reactively",
 
   "RateLimit": {
     "Algorithm": "SlidingWindow",
