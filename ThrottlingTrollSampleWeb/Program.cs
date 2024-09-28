@@ -40,7 +40,8 @@ namespace ThrottlingTrollSampleWeb
             // Configuring a named HttpClient for egress throttling. Rules and limits taken from appsettings.json
             builder.Services.AddHttpClient(TestController.MyThrottledHttpClientName).AddThrottlingTrollMessageHandler();
 
-            // Configuring a named HttpClient that does automatic retries with respect to Retry-After response header
+            // Configuring a named HttpClient that does automatic retries with respect to Retry-After response header.
+            // Note that egress limits from appsettings.json will also apply to this one.
             builder.Services.AddHttpClient(TestController.MyRetryingHttpClientName).AddThrottlingTrollMessageHandler(options =>
             {
                 options.ResponseFabric = async (checkResults, requestProxy, responseProxy, cancelToken) =>
