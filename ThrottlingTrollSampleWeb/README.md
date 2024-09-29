@@ -8,7 +8,4 @@ As a prerequisite, you will need minimum [.NET 6.0](https://dotnet.microsoft.com
 
 1. (Optional, if you want to use **RedisCounterStore**) Add `RedisConnectionString` setting to [appsettings.json](https://github.com/ThrottlingTroll/ThrottlingTroll-AspDotNetCore-Samples/blob/main/ThrottlingTrollSampleWeb/appsettings.json) file. For a local Redis server that connection string usually looks like `localhost:6379`. 
 
-2. Type the following in a terminal window:
-```
-dotnet run
-```
+2. Type `dotnet run` in a terminal window.
