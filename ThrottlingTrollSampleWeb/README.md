@@ -6,9 +6,7 @@ This ASP.NET Core project demonstrates all the features of [ThrottlingTroll](htt
 
 As a prerequisite, you will need minimum [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) installed.
 
-If you run this code on a GitHub Codespaces instance, then everything (including Redis server) should be pre-installed and ready for you.
-
-1. (Optional, if you want to use **RedisCounterStore**) Add `RedisConnectionString` setting to [appsettings.json](https://github.com/ThrottlingTroll/ThrottlingTroll/blob/main/samples/ThrottlingTrollSampleWeb/appsettings.json) file. For a local Redis server that connection string usually looks like `localhost:6379`. 
+1. (Optional, if you want to use **RedisCounterStore**) Add `RedisConnectionString` setting to [appsettings.json](https://github.com/ThrottlingTroll/ThrottlingTroll-AspDotNetCore-Samples/blob/main/ThrottlingTrollSampleWeb/appsettings.json) file. For a local Redis server that connection string usually looks like `localhost:6379`. 
 
 2. Type the following in a terminal window:
 ```
