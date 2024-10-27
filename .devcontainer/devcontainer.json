@@ -1,7 +1,0 @@
-{
-	"name": "C# (.NET)",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/dotnet:1-6.0",
-
-	"postCreateCommand": "dotnet dev-certs https"
-}
