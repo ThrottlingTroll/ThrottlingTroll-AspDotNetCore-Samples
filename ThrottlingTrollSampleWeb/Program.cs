@@ -1,4 +1,6 @@
 using Microsoft.Net.Http.Headers;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 using StackExchange.Redis;
 using System.Text.Json;
 using ThrottlingTroll;
@@ -34,6 +36,29 @@ namespace ThrottlingTrollSampleWeb
                     new RedisCounterStore(ConnectionMultiplexer.Connect(redisConnString))
                 );
             }
+
+            // OpenTelemetry
+
+            builder.Services
+                .AddOpenTelemetry()
+                .WithMetrics(metrics =>
+                {
+                    metrics.AddAspNetCoreInstrumentation();
+
+                    metrics.AddMeter("Microsoft.AspNetCore.Hosting");
+                    metrics.AddMeter("Microsoft.AspNetCore.Server.Kestrel");
+
+                    metrics.AddMeter("ThrottlingTroll");
+                })
+                .WithTracing(tracing =>
+                {
+                    tracing.AddAspNetCoreInstrumentation();
+                    tracing.AddHttpClientInstrumentation();
+                    tracing.AddSource("ThrottlingTroll");
+
+                    tracing.AddZipkinExporter();
+                });
+
 
             // <ThrottlingTroll Egress Configuration>
 
