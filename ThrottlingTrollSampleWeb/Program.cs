@@ -190,7 +190,8 @@ namespace ThrottlingTrollSampleWeb
                             IdentityIdExtractor = request =>
                             {
                                 // Identifying clients by their api-key
-                                return ((IIncomingHttpRequestProxy)request).Request.Query["api-key"];
+                                request.Query.TryGetValue("api-key", out var key);
+                                return key;
                             }
                         },
 
@@ -224,7 +225,8 @@ namespace ThrottlingTrollSampleWeb
                             IdentityIdExtractor = request =>
                             {
                                 // Identifying clients by their id
-                                return ((IIncomingHttpRequestProxy)request).Request.Query["id"];
+                                request.Query.TryGetValue("id", out var id);
+                                return id;
                             }
                         },
 
@@ -244,7 +246,8 @@ namespace ThrottlingTrollSampleWeb
                             IdentityIdExtractor = request =>
                             {
                                 // Identifying counters by their id
-                                return ((IIncomingHttpRequestProxy)request).Request.Query["id"];
+                                request.Query.TryGetValue("id", out var id);
+                                return id;
                             }
                         },
 
@@ -264,7 +267,7 @@ namespace ThrottlingTrollSampleWeb
                             CostExtractor = request =>
                             {
                                 // Cost comes as a 'cost' query string parameter
-                                string? cost = ((IIncomingHttpRequestProxy)request).Request.Query["cost"];
+                                request.Query.TryGetValue("cost", out var cost);
 
                                 return long.TryParse(cost, out long val) ? val : 1;
                             }
@@ -285,7 +288,8 @@ namespace ThrottlingTrollSampleWeb
                             // Using "id" query string param to identify requests
                             IdentityIdExtractor = request =>
                             {
-                                return ((IIncomingHttpRequestProxy)request).Request.Query["id"];
+                                request.Query.TryGetValue("id", out var id);
+                                return id;
                             },
 
                             // Returning 409 Conflict for duplicate requests
