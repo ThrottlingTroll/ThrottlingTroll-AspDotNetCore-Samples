@@ -313,7 +313,19 @@ namespace ThrottlingTrollSampleWeb
                                 IntervalInSeconds = 10,
                                 TrialIntervalInSeconds = 20
                             }
-                        }
+                        },
+
+                        // Demonstrates LeakyBucket
+                        new ThrottlingTrollRule
+                        {
+                            UriPattern = $"/{TestController.LeakyBucket3RequestsPer10SecondsRoute}",
+
+                            LimitMethod = new LeakyBucketRateLimitMethod
+                            {
+                                PermitLimit = 3,
+                                IntervalInSeconds = 10,
+                            }
+                        },
                     },
                 };
 
